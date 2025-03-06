@@ -2,39 +2,48 @@ package com.AddressBookApp.service;
 
 
 import com.AddressBookApp.model.Contact;
-import com.AddressBookApp.repository.ContactRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ContactService {
 
-    // to handle database operations
-    @Autowired
-    private ContactRepository contactRepository;
+    // In-memory storage for contacts
+    private List<Contact> contactList = new ArrayList<>();
 
-    public Contact addContact(Contact contact) {
-        return contactRepository.save(contact);
+    public List<Contact> getAllContacts() {
+        return contactList;
     }
 
-    public Contact getContactById(Long id) {
-        return contactRepository.findById(id).orElse(null);
+    public Optional<Contact> getContactById(Long id) {
+        return contactList.stream().filter(contact -> contact.getId().equals(id)).findFirst();
     }
 
-    public Contact updateContact(Long id, Contact updatedContact) {
-        if (contactRepository.existsById(id)) {
-            updatedContact.setId(id);
-            return contactRepository.save(updatedContact);
+    public Contact createContact(Contact contact) {
+        contactList.add(contact);
+        return contact;
+    }
+
+    public Optional<Contact> updateContact(Long id, Contact contact) {
+        Optional<Contact> existingContact = getContactById(id);
+        if (existingContact.isPresent()) {
+            contact.setId(id);
+            contactList.remove(existingContact.get());
+            contactList.add(contact);
+            return Optional.of(contact);
         }
-        return null;
+        return Optional.empty();
     }
 
     public boolean deleteContact(Long id) {
-        if (contactRepository.existsById(id)) {
-            contactRepository.deleteById(id);
+        Optional<Contact> existingContact = getContactById(id);
+        if (existingContact.isPresent()) {
+            contactList.remove(existingContact.get());
             return true;
         }
         return false;
     }
-
 }
