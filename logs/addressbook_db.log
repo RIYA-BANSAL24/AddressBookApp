@@ -108,6 +108,7 @@
 2025-03-08 20:28:15 - INFO [restartedMain] o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
 2025-03-08 20:28:16 - INFO [restartedMain] o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
 2025-03-08 20:28:16 - INFO [restartedMain] c.A.AddressBookAppApplication - Started AddressBookAppApplication in 4.997 seconds (process running for 5.598)
+
 2025-03-08 20:40:05 - INFO [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
 2025-03-08 20:40:05 - INFO [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
 2025-03-08 20:40:05 - INFO [SpringApplicationShutdownHook] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
@@ -186,3 +187,4 @@
 2025-03-08 21:22:23 - INFO [restartedMain] o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
 2025-03-08 21:22:23 - INFO [restartedMain] o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
 2025-03-08 21:22:23 - INFO [restartedMain] c.A.AddressBookAppApplication - Started AddressBookAppApplication in 5.824 seconds (process running for 6.438)
+
