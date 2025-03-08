@@ -1,49 +1,65 @@
 package com.AddressBookApp.service;
 
-
+import com.AddressBookApp.dto.ContactDTO;
 import com.AddressBookApp.model.Contact;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class ContactService {
 
-    // In-memory storage for contacts
-    private List<Contact> contactList = new ArrayList<>();
+    List<Contact> contacts = new ArrayList<>();
+    private long idCounter = 1; //auto-increment ID
 
     public List<Contact> getAllContacts() {
-        return contactList;
+        log.info("Fetching all contacts");
+        return contacts;
     }
 
-    public Optional<Contact> getContactById(Long id) {
-        return contactList.stream().filter(contact -> contact.getId().equals(id)).findFirst();
+    public Contact getContactById(Long id) {
+        log.info("Fetching contact with ID: {}", id);
+        return contacts.stream()
+                .filter(contact -> contact.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> {
+                    log.error("Contact with ID {} not found", id);
+                    return new RuntimeException("Contact not found");
+                });
     }
 
-    public Contact createContact(Contact contact) {
-        contactList.add(contact);
+    public Contact addContact(Contact contact) {
+        contact.setId(idCounter++);
+        contacts.add(contact);
+        log.info("Added new contact: {}", contact);
         return contact;
     }
 
-    public Optional<Contact> updateContact(Long id, Contact contact) {
-        Optional<Contact> existingContact = getContactById(id);
-        if (existingContact.isPresent()) {
-            contact.setId(id);
-            contactList.remove(existingContact.get());
-            contactList.add(contact);
-            return Optional.of(contact);
+    public Contact updateContact(Long id, Contact newContact) {
+        Optional<Contact> optionalContact = contacts.stream()
+                .filter(contact -> contact.getId().equals(id))
+                .findFirst();
+
+        if (optionalContact.isPresent()) {
+            Contact existingContact = optionalContact.get();
+            existingContact.setName(newContact.getName());
+            existingContact.setEmail(newContact.getEmail());
+            existingContact.setPhone(newContact.getPhone());
+            log.info("Updated contact with ID {}: {}", id, existingContact);
+            return existingContact;
+        } else {
+            log.error("Contact with ID {} not found for update", id);
+            throw new RuntimeException("Contact not found");
         }
-        return Optional.empty();
     }
 
-    public boolean deleteContact(Long id) {
-        Optional<Contact> existingContact = getContactById(id);
-        if (existingContact.isPresent()) {
-            contactList.remove(existingContact.get());
-            return true;
-        }
-        return false;
+    public void deleteContact(Long id) {
+        contacts.removeIf(contact -> contact.getId().equals(id));
+        log.warn("Deleted contact with ID: {}", id);
     }
 }
