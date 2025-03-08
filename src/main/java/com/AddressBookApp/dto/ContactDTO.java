@@ -1,17 +1,25 @@
 package com.AddressBookApp.dto;
 
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+@Data
 @Getter
 @Setter
 public class ContactDTO {
-    //private Long id;
+
+
+    @NotBlank(message = "Name cannot be blank")
     private String name;
-    //private String phone;
+
+    @Email(message = "Invalid email format")
+    @NotBlank(message = "Email cannot be blank")
     private String email;
-    //private String address;
+
+    @Pattern(regexp = "^[0-9]{10}$", message = "Phone number must be 10 digits")
+    private String phoneNumber;
 }
