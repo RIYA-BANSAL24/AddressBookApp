@@ -28,5 +28,7 @@ public class Contact {
 
     @Pattern(regexp = "^[0-9]{10}$", message = "Phone number must be 10 digits")
     @Column(nullable = false, unique = true)
-    private String phoneNumber;
+    private String number;
+
+    private String address;
 }
