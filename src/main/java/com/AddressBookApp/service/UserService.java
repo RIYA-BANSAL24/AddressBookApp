@@ -13,9 +13,9 @@ import java.util.Optional;
 public class UserService {
 
     @Autowired
-    private UserRepository userRepository;
+    UserRepository userRepository;
 
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public User registerUser(UserDTO userDTO) {
         User user = new User();

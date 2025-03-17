@@ -1121,3 +1121,8 @@ java.sql.SQLException: Field 'username' doesn't have a default value
 2025-03-17 15:31:36 - DEBUG [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy - Securing POST /user/login
 2025-03-17 15:31:36 - DEBUG [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy - Secured POST /user/login
 2025-03-17 15:31:36 - DEBUG [http-nio-8080-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-03-17 15:43:30 - INFO [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-03-17 15:43:30 - INFO [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-03-17 15:43:30 - INFO [SpringApplicationShutdownHook] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-03-17 15:43:30 - INFO [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-03-17 15:43:30 - INFO [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
