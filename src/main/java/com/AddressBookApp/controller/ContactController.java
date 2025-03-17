@@ -3,58 +3,53 @@ package com.AddressBookApp.controller;
 import com.AddressBookApp.dto.ContactDTO;
 import com.AddressBookApp.model.Contact;
 import com.AddressBookApp.service.ContactService;
-import lombok.extern.slf4j.Slf4j;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Slf4j
 @RestController
-@RequestMapping("/contacts")
+@RequestMapping("/contact")  // Base URL updated to /contact
 public class ContactController {
 
-    ContactService contactService;
+    // Renamed service bean to be more descriptive
+    @Autowired
+    private ContactService contactService;  // Fixed variable name
 
-    public ContactController(ContactService contactService) {
-        this.contactService = contactService;
+    // Create a new contact entry
+    @PostMapping("/create")
+    public ResponseEntity<Contact> createEntry(@Valid @RequestBody ContactDTO dto) {
+        // Calling service to create the entry
+        Contact contact = contactService.createAddressBookEntry(dto);  // Fixed method call
+        return ResponseEntity.ok(contact);
     }
 
-    @GetMapping
-    public ResponseEntity<List<Contact>> getAllContacts() {
-        log.info("Received request to fetch all contacts");
-        return ResponseEntity.ok(contactService.getAllContacts());
+    // Get all contact entries
+    @GetMapping("/all")
+    public ResponseEntity<List<Contact>> getAllEntries() {
+        return ResponseEntity.ok(contactService.getAllEntries());  // Fixed method call
     }
 
+    // Get contact entry by ID
     @GetMapping("/{id}")
-    public ResponseEntity<Contact> getContactById(@PathVariable Long id) {
-        log.info("Received request to fetch contact with ID: {}", id);
-        return ResponseEntity.ok(contactService.getContactById(id));
+    public ResponseEntity<Contact> getEntryById(@PathVariable Long id) {
+        Contact contact = contactService.getEntryById(id);  // Fixed method call
+        return (contact != null) ? ResponseEntity.ok(contact) : ResponseEntity.notFound().build();
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<Contact> addContact(@RequestBody Contact contact) {
-        log.info("Received request to add a new contact");
-        return ResponseEntity.ok(contactService.addContact(contact));
-    }
-
+    // Update contact entry by ID
     @PutMapping("/update/{id}")
-    public ResponseEntity<Contact> updateContact(@PathVariable Long id, @RequestBody Contact contact) {
-        log.info("Received request to update contact with ID: {}", id);
-        return ResponseEntity.ok(contactService.updateContact(id, contact));
+    public ResponseEntity<Contact> updateEntry(@PathVariable Long id, @Valid @RequestBody ContactDTO dto) {
+        Contact updatedContact = contactService.updateEntry(id, dto);  // Fixed method call
+        return (updatedContact != null) ? ResponseEntity.ok(updatedContact) : ResponseEntity.notFound().build();
     }
 
+    // Delete contact entry by ID
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteContact(@PathVariable Long id) {
-        log.info("Received request to delete contact with ID: {}", id);
-        contactService.deleteContact(id);
+    public ResponseEntity<Void> deleteEntry(@PathVariable Long id) {
+        contactService.deleteEntry(id);  // Fixed method call
         return ResponseEntity.noContent().build();
     }
 }
