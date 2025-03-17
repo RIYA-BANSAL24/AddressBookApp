@@ -8,6 +8,7 @@ import org.springframework.context.ApplicationContext;
 @Slf4j
 @SpringBootApplication
 public class AddressApplication {
+//    This is a AddressApplication
 
     public static void main(String[] args) {
         ApplicationContext context = SpringApplication.run(AddressApplication.class, args);
@@ -16,5 +17,4 @@ public class AddressApplication {
                 : "default";
         log.info("Address Book App Started in {} environment", activeProfile);
     }
-
 }
