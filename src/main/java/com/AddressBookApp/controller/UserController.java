@@ -15,7 +15,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    // ✅ User Registration Endpoint
     @PostMapping("/register")
     @Operation(summary = "Register a new user", description = "Creates a new user account with encrypted password")
     public String registerUser(@RequestBody UserDTO userDTO) {
@@ -27,7 +26,6 @@ public class UserController {
         }
     }
 
-    // ✅ User Login Endpoint
     @PostMapping("/login")
     @Operation(summary = "User Login", description = "Validates user credentials and returns login status")
     public String loginUser(@RequestBody UserDTO userDTO) {

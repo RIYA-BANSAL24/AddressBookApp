@@ -1,34 +1,34 @@
 package com.AddressBookApp.config;
-
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.DirectExchange;
-import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitMQConfig {
 
-    public static final String QUEUE_NAME = "addressQueue";
-    public static final String EXCHANGE_NAME = "addressExchange";
-    public static final String ROUTING_KEY = "addressRoutingKey"; // FIXED HERE
+    @Value("${rabbitmq.queue.name}")
+    private String QUEUE;
+    @Value("${rabbitmq.exchange.name}")
+    private String EXCHANGE;
+    @Value("${rabbitmq.routing.name}")
+    private String ROUTING_KEY;
 
+    // Define Queue
     @Bean
-    Queue queue() {
-        return new Queue(QUEUE_NAME, true); // durable = true
+    public Queue queue() {
+        return new Queue(QUEUE, true);
     }
 
+    // Define Exchange (Direct Exchange)
     @Bean
-    DirectExchange exchange() {
-        return new DirectExchange(EXCHANGE_NAME);
+    public DirectExchange exchange() {
+        return new DirectExchange(EXCHANGE);
     }
 
+    // Define Binding between Queue and Exchange using Routing Key
     @Bean
-    Binding binding(Queue queue, DirectExchange exchange) {
-        return BindingBuilder
-                .bind(queue)
-                .to(exchange)
-                .with(ROUTING_KEY);
+    public Binding binding(Queue queue, DirectExchange exchange) {
+        return BindingBuilder.bind(queue).to(exchange).with(ROUTING_KEY);
     }
 }
