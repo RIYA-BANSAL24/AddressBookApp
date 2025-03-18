@@ -28,12 +28,10 @@ public class UserService {
     // ✅ User Registration
     public String registerUser(UserDTO userDTO) {
         try {
-            // 🔹 Check if email already exists
             if (userRepository.findByEmail(userDTO.getEmail()).isPresent()) {
                 return "Error: Email is already registered!";
             }
 
-            // 🔹 Encrypt password before saving
             User user = new User();
             user.setName(userDTO.getName());
             user.setEmail(userDTO.getEmail());
@@ -42,10 +40,8 @@ public class UserService {
 
             userRepository.save(user);
 
-            // 🔹 Generate JWT Token
             String token = jwtUtil.generateToken(user.getEmail());
 
-            // 🔹 Send Confirmation Email
             String emailBody = "Welcome " + user.getName() + ",\n\nYour account has been successfully registered.\n\nToken: " + token;
             emailService.sendEmail(user.getEmail(), "Registration Successful", emailBody);
 
@@ -56,7 +52,6 @@ public class UserService {
         }
     }
 
-    // ✅ User Login
     public String loginUser(UserDTO userDTO) {
         try {
             Optional<User> userOptional = userRepository.findByEmail(userDTO.getEmail());
