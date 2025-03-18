@@ -7,7 +7,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDTO {
-    private String username;  // Add this field
     private String name;
     private String email;
     private String phone;
