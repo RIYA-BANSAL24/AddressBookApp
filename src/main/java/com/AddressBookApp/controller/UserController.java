@@ -1,7 +1,6 @@
 package com.AddressBookApp.controller;
 
 import com.AddressBookApp.dto.UserDTO;
-import com.AddressBookApp.model.User;
 import com.AddressBookApp.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -16,12 +15,19 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    // ✅ User Registration Endpoint
     @PostMapping("/register")
     @Operation(summary = "Register a new user", description = "Creates a new user account with encrypted password")
-    public User registerUser(@RequestBody UserDTO userDTO) {
-        return userService.registerUser(userDTO);
+    public String registerUser(@RequestBody UserDTO userDTO) {
+        try {
+            userService.registerUser(userDTO);
+            return "User registered successfully!";
+        } catch (Exception e) {
+            return "Error during registration: " + e.getMessage();
+        }
     }
 
+    // ✅ User Login Endpoint
     @PostMapping("/login")
     @Operation(summary = "User Login", description = "Validates user credentials and returns login status")
     public String loginUser(@RequestBody UserDTO userDTO) {

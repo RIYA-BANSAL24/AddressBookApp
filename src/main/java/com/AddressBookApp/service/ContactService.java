@@ -29,9 +29,9 @@ public class ContactService {
         List<Contact> contacts = contactRepository.findAll();
 
         if (contacts.isEmpty()) {
-            log.warn("⚠️ No contacts found in the database!");
+            log.warn("No contacts found in the database!");
         } else {
-            log.info("✅ Fetched {} contacts: {}", contacts.size(), contacts);
+            log.info("Fetched {} contacts: {}", contacts.size(), contacts);
         }
 
         return contacts;
@@ -43,7 +43,7 @@ public class ContactService {
         Optional<Contact> contact = contactRepository.findById(id);
 
         if (contact.isPresent()) {
-            log.info("✅ Found contact: {}", contact.get());
+            log.info("Found contact: {}", contact.get());
         } else {
             log.warn("⚠️ No contact found with ID: {}", id);
         }
